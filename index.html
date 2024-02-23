@@ -1,0 +1,1017 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>File an EMTALA Complaint</title>
+
+    <link
+      rel="stylesheet"
+      href="https://design.cms.gov/cdn/design-system/8.0.5/css/index.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://design.cms.gov/cdn/design-system/8.0.5/css/core-theme.css"
+    />
+    <script src="https://unpkg.com/aria-autocomplete"></script>
+  </head>
+  <body>
+    <form class="complaint" action="">
+      <!-- ======================= COMPLAINT FORM ============================ -->
+
+      <div class="data-entry-form">
+        <h1 class="ds-h1">File an EMTALA Complaint</h1>
+
+        <p>
+          Before filing a complaint, <a href="#">know your EMTALA rights</a>.
+        </p>
+
+        <h2 class="ds-h2">
+          <span class="step-indicator">1</span>EMTALA complaint about a hospital
+          emergency department
+        </h2>
+
+        <fieldset class="filing-choice ds-c-fieldset">
+          <legend class="ds-c-label">
+            Would you like to provide contact information, or file anonymously?
+          </legend>
+          <div>
+            <div class="ds-c-choice-wrapper">
+              <input
+                type="radio"
+                class="ds-c-choice"
+                id="anon-no-input"
+                name="file_anonymously"
+                value="no"
+                data-reveal=".relationship-to-patient"
+              />
+              <label class="ds-c-label" for="anon-no-input">
+                <span>I'll provide my contact information.</span>
+                <span class="ds-c-field__hint">
+                  If we have questions about your complaint, we might contact
+                  you. Below, you can let us know if you have any concerns about
+                  sharing your information with the state where the hospital is
+                  located.
+                </span>
+              </label>
+            </div>
+          </div>
+          <div>
+            <div class="ds-c-choice-wrapper">
+              <input
+                type="radio"
+                class="ds-c-choice"
+                id="anon-yes-input"
+                name="file_anonymously"
+                value="yes"
+                data-reveal=".relationship-to-patient"
+              />
+              <label class="ds-c-label" for="anon-yes-input">
+                <span>I'll remain anonymous.</span>
+                <span class="ds-c-field__hint">
+                  Please note that sometimes while gathering information,
+                  investigators reach out to patients they find in hospital
+                  records. If you're the patient, you might be contacted if your
+                  complaint is being investigated and you are identified by
+                  investigators.
+                </span>
+              </label>
+            </div>
+          </div>
+        </fieldset>
+        <fieldset class="contact-information ds-c-fieldset" hidden>
+          <legend class="ds-c-label">
+            Please provide your contact information.
+          </legend>
+          <div class="ds-u-clearfix">
+            <label class="ds-c-label" for="id-contact-firstname"
+              >First name</label
+            >
+            <input
+              id="id-contact-firstname"
+              class="ds-c-field"
+              name="contact_firstname"
+              autocomplete="given-name"
+              maxlength="50"
+            />
+          </div>
+          <div class="ds-u-clearfix">
+            <label class="ds-c-label" for="id-contact-lastname"
+              >Last name</label
+            >
+            <input
+              id="id-contact-lastname"
+              class="ds-c-field"
+              name="contact_lastname"
+              autocomplete="family-name"
+              maxlength="50"
+            />
+          </div>
+          <div class="ds-u-clearfix">
+            <label class="ds-c-label" for="id-contact-phone">Phone</label>
+            <input
+              type="text"
+              id="id-contact-phone"
+              class="ds-c-field"
+              name="contact_phone"
+              autocomplete="tel"
+              maxlength="30"
+            />
+          </div>
+          <div class="ds-u-clearfix">
+            <label class="ds-c-label" for="id-contact-email">Email</label>
+            <input
+              type="text"
+              id="id-contact-email"
+              class="ds-c-field"
+              name="contact_email"
+              autocomplete="email"
+              maxlength="50"
+            />
+          </div>
+        </fieldset>
+
+        <fieldset class="relationship-to-patient ds-c-fieldset" hidden>
+          <legend class="ds-c-label">
+            What is your relationship to the patient?
+          </legend>
+          <div class="ds-c-choice-wrapper">
+            <input
+              type="radio"
+              class="ds-c-choice"
+              id="id-relationship-patient"
+              name="relationship"
+              value="patient"
+              data-reveal=".hospital-location"
+            />
+            <label class="ds-c-label" for="id-relationship-patient">
+              <span>I'm the patient</span>
+            </label>
+          </div>
+          <div class="ds-c-choice-wrapper">
+            <input
+              type="radio"
+              class="ds-c-choice"
+              id="id-relationship-helper"
+              name="relationship"
+              value="helper"
+              data-reveal=".hospital-location"
+            />
+            <label class="ds-c-label" for="id-relationship-helper">
+              <span>I'm filing a complaint for someone else</span>
+            </label>
+          </div>
+          <div class="ds-c-choice-wrapper">
+            <input
+              type="radio"
+              class="ds-c-choice"
+              id="id-relationship-worker"
+              name="relationship"
+              value="worker"
+              data-reveal=".hospital-location"
+            />
+            <label class="ds-c-label" for="id-relationship-worker">
+              <span>I work at this hospital</span>
+            </label>
+          </div>
+          <div class="ds-c-choice-wrapper">
+            <input
+              type="radio"
+              class="ds-c-choice"
+              id="id-relationship-anon"
+              name="relationship"
+              value="anonymous"
+              data-reveal=".hospital-location"
+            />
+            <label class="ds-c-label" for="id-relationship-anon">
+              <span>I prefer not to say</span>
+            </label>
+          </div>
+        </fieldset>
+
+        <h2 class="ds-h2">
+          <span class="step-indicator">2</span>Let us know where the problem
+          happened
+        </h2>
+
+        <fieldset class="hospital-location ds-c-fieldset" hidden>
+          <legend class="ds-c-label ds-u-visibility--screen-reader">
+            Where is the hospital emergency department?
+          </legend>
+          <div class="ds-u-clearfix">
+            <label class="ds-c-label margin-top-0" for="id-incident-state"
+              >Select a U.S. state or territory</label
+            >
+            <select
+              name="incident_state"
+              id="id-incident-state"
+              class="ds-c-field"
+              required
+              data-reveal=".hospital-dropdown"
+            >
+              <option value="">- Select -</option>
+              <option value="AL">Alabama</option>
+              <option value="AK">Alaska</option>
+              <option value="AZ">Arizona</option>
+              <option value="AR">Arkansas</option>
+              <option value="CA">California</option>
+              <option value="CO">Colorado</option>
+              <option value="CT">Connecticut</option>
+              <option value="DE">Delaware</option>
+              <option value="DC">District Of Columbia</option>
+              <option value="FL">Florida</option>
+              <option value="GA">Georgia</option>
+              <option value="HI">Hawaii</option>
+              <option value="ID">Idaho</option>
+              <option value="IL">Illinois</option>
+              <option value="IN">Indiana</option>
+              <option value="IA">Iowa</option>
+              <option value="KS">Kansas</option>
+              <option value="KY">Kentucky</option>
+              <option value="LA">Louisiana</option>
+              <option value="ME">Maine</option>
+              <option value="MD">Maryland</option>
+              <option value="MA">Massachusetts</option>
+              <option value="MI">Michigan</option>
+              <option value="MN">Minnesota</option>
+              <option value="MS">Mississippi</option>
+              <option value="MO">Missouri</option>
+              <option value="MT">Montana</option>
+              <option value="NE">Nebraska</option>
+              <option value="NV">Nevada</option>
+              <option value="NH">New Hampshire</option>
+              <option value="NJ">New Jersey</option>
+              <option value="NM">New Mexico</option>
+              <option value="NY">New York</option>
+              <option value="NC">North Carolina</option>
+              <option value="ND">North Dakota</option>
+              <option value="OH">Ohio</option>
+              <option value="OK">Oklahoma</option>
+              <option value="OR">Oregon</option>
+              <option value="PA">Pennsylvania</option>
+              <option value="RI">Rhode Island</option>
+              <option value="SC">South Carolina</option>
+              <option value="SD">South Dakota</option>
+              <option value="TN">Tennessee</option>
+              <option value="TX">Texas</option>
+              <option value="UT">Utah</option>
+              <option value="VT">Vermont</option>
+              <option value="VA">Virginia</option>
+              <option value="WA">Washington</option>
+              <option value="WV">West Virginia</option>
+              <option value="WI">Wisconsin</option>
+              <option value="WY">Wyoming</option>
+              <option value="AS">American Samoa</option>
+              <option value="GU">Guam</option>
+              <option value="PR">Puerto Rico</option>
+              <option value="VI">Virgin Islands</option>
+            </select>
+          </div>
+
+          <div class="hospital-dropdown ds-u-clearfix" hidden>
+            <label class="ds-c-label"> Hospital name</label>
+            <input
+              class="ds-c-field"
+              type="text"
+              name="hospital_ccn"
+              data-reveal=".date-of-incident"
+            />
+            <div class="hospital-details" hidden>
+              <h3 class="ds-text-heading--md">
+                Here's the address we have for this hospital emergency
+                department:
+              </h3>
+              <div class="hospital-name"></div>
+              <div class="hospital-address"></div>
+              <div class="hospital-city"></div>
+              <div class="hospital-phone"></div>
+              <p>
+                If this hospital information is not correct, let us know below
+                when you tell us what happened.
+              </p>
+            </div>
+          </div>
+        </fieldset>
+
+        <div class="date-of-incident ds-u-clearfix" hidden>
+          <label class="ds-c-label" for="incident-date">
+            <span>When did the problem happen?</span>
+            <span class="ds-c-field__hint"
+              >If you're not sure, give your best estimate.</span
+            >
+            <span
+              class="incident-date-error ds-c-inline-error ds-c-field__error-message"
+              aria-live="assertive"
+              aria-atomic="true"
+              hidden
+            >
+              <span aria-hidden="true">🛑</span>
+              Please enter a date that is today or earlier.
+            </span>
+          </label>
+          <input
+            type="date"
+            id="incident-date"
+            class="ds-c-field"
+            name="incident_date"
+            required
+            data-reveal=".description-of-incident"
+          />
+          <div class="incident-date-formatted"></div>
+        </div>
+
+        <h2 class="ds-h2">
+          <span class="step-indicator">3</span>Tell us what happened
+        </h2>
+
+        <div class="description-of-incident" hidden>
+          <div class="ds-u-clearfix">
+            <label class="ds-c-label">
+              <span>Describe the situation in detail. </span>
+              <div class="ds-c-field__hint">
+                Be sure to include:
+                <ul>
+                  <li>
+                    The people who were involved (Examples: witnesses, hospital
+                    staff)
+                  </li>
+                  <li>What actions you took</li>
+                  <li>If the hospital tried to address the situation</li>
+                  <li>
+                    Any concerns about sharing your information with the state
+                  </li>
+                </ul>
+              </div>
+              <span
+                class="incident-description-error ds-c-inline-error ds-c-field__error-message"
+                aria-live="assertive"
+                aria-atomic="true"
+                hidden
+              >
+                <span aria-hidden="true">🛑</span>
+                Please enter at least 250 characters here.
+              </span>
+            </label>
+            <textarea name="incident_description" class="ds-c-field"></textarea>
+            <div class="text-counter">(Up to 3,000 characters)</div>
+          </div>
+
+          <div class="reported-problem-before ds-u-clearfix">
+            <label class="ds-c-label">
+              <span>Have you reported this problem before?</span>
+              <span class="ds-c-field__hint"
+                >If so, what office did you report this problem to?</span
+              ></label
+            >
+            <textarea name="previously_reported" class="ds-c-field"></textarea>
+            <div class="text-counter">(Up to 200 characters)</div>
+          </div>
+
+          <button
+            type="button"
+            class="go-to-review ds-c-button ds-c-button--solid"
+          >
+            Review your complaint
+          </button>
+        </div>
+      </div>
+
+      <!-- ============================ REVIEW PAGE ============================ -->
+
+      <div class="review-complaint" hidden>
+        <template>
+          <h2 class="ds-h2">
+            <span class="step-indicator">1</span> Personal information
+          </h2>
+
+          <h3 class="ds-h3">${".filing-choice legend"}</h3>
+          <p>${".filing-choice input:checked + label :first-child"}</p>
+          <ul class="contact-info-review">
+            <li>
+              Name: ${"![name=contact_firstname]"} ${"![name=contact_lastname]"}
+            </li>
+            <li>Phone: ${"![name=contact_phone]"}</li>
+            <li>Email: ${"![name=contact_email]"}</li>
+          </ul>
+          <h3 class="ds-h3">${".relationship-to-patient legend"}</h3>
+          <p>
+            ${".relationship-to-patient input:checked + label :first-child"}
+          </p>
+
+          <h2 class="ds-h2">
+            <span class="step-indicator">2</span> Where the problem happened
+          </h2>
+
+          <div>${".hospital-name"}</div>
+          <div>${".hospital-address"}</div>
+          <div>${".hospital-city"}</div>
+          <div>${".hospital-phone"}</div>
+
+          <h2 class="ds-h2">
+            <span class="step-indicator">3</span> What happened
+          </h2>
+
+          <h3 class="ds-h3">${".date-of-incident label :first-child"}</h3>
+          <p>${".incident-date-formatted"}</p>
+
+          <h3 class="ds-h3">
+            ${".description-of-incident label :first-child"}
+          </h3>
+          <p>${"!textarea[name=incident_description]"}</p>
+
+          <h3 class="ds-h3">
+            ${".reported-problem-before label :first-child"}
+          </h3>
+          <p>${"!textarea[name=previously_reported]"}</p>
+        </template>
+
+        <h1 class="ds-h1">Review your EMTALA complaint</h1>
+        <p>
+          Before filing your complaint, please check to be sure all the
+          information you entered is correct. This will help us when we review
+          your complaint.
+        </p>
+        <p>If you need to make changes, just go back to the form.</p>
+        <p>
+          <button
+            class="back-to-form ds-c-button ds-c-button--outline"
+            type="button"
+          >
+            Go back to the form
+          </button>
+        </p>
+
+        <div class="review-complaint-content"></div>
+
+        <p>
+          To keep this information for your records, you can save this page as a
+          PDF on your computer or mobile phone.
+        </p>
+        <p>
+          Once you file your complaint, you can't make changes to the
+          information you provided. If you provided your contact information, a
+          state or federal investigator might reach out to you.
+        </p>
+        <p>
+          By clicking “File your complaint,” you are confirming that all the
+          information in your complaint is true, to the best of your knowledge.
+        </p>
+        <button
+          class="back-to-form ds-c-button ds-c-button--outline"
+          type="button"
+        >
+          Go back to the form
+        </button>
+        <button
+          class="submit-your-complaint ds-c-button ds-c-button--solid"
+          type="submit"
+        >
+          File your complaint
+        </button>
+      </div>
+
+      <!-- ============================ THANK YOU PAGE ============================ -->
+
+      <div class="thank-you-page" hidden>
+        <h1 class="ds-h1">Thank you for filing an EMTALA complaint</h1>
+        <p>
+          If you provided your email, we sent you an email confirming that we
+          received your complaint.
+        </p>
+        <p>
+          To keep this information for your records, you can save this page as a
+          PDF on your computer or mobile phone.
+        </p>
+        <h2 class="ds-h2">What to expect</h2>
+        <p>
+          Your complaint will go directly to the federal government to review
+          and share with the state. If there is an investigation, the federal
+          government will determine if the hospital violated EMTALA.
+        </p>
+        <p>
+          If you provided your contact information, an investigator might
+          contact you with questions. Even if you don’t speak to an
+          investigator, you'll receive a summary of the investigation.
+        </p>
+        <p>
+          If your complaint is about a situation not covered by EMTALA, it will
+          be sent to the right office, or closed.
+        </p>
+        <p>Here are some resources:</p>
+        <ul>
+          <li><a href="">Contact information for State Survey Agencies</a></li>
+          <li><a href="">Your emergency department rights</a></li>
+        </ul>
+
+        <h2 class="ds-h2">About CMS</h2>
+        <p>
+          CMS is the federal agency that provides health coverage to more than
+          160 million through Medicare, Medicaid, the Children's Health
+          Insurance Program, and the Health Insurance Marketplace. CMS works in
+          partnership with the entire health care community to improve quality,
+          equity and outcomes in the health care system.
+        </p>
+      </div>
+    </form>
+
+    <style>
+      form.complaint {
+        max-width: 50rem;
+        padding: 2rem;
+        margin-bottom: 4rem;
+
+        [hidden] {
+          display: none !important;
+        }
+        .margin-top-0 {
+          margin-top: 0px;
+        }
+        input[type="date"],
+        select {
+          width: auto;
+        }
+        textarea[name="incident_description"] {
+          height: 20ex;
+        }
+        .ds-c-field__hint ul {
+          display: block;
+          margin-top: 0.25rem;
+          gap: 0.1rem;
+        }
+        .hospital-details {
+          margin-top: 1rem;
+          max-width: 30rem;
+          font-weight: normal;
+          padding: 1rem;
+          background: #def;
+          border: 1px solid #28b;
+        }
+        button.go-to-review,
+        button.submit-your-complaint {
+          margin: 2rem 0;
+        }
+
+        .step-indicator {
+          display: inline-block;
+          text-align: center;
+          height: 2rem;
+          width: 2rem;
+          border-radius: 99rem;
+          background-color: #446;
+          color: #fff;
+          margin: 0.5rem 0.5rem 0.5rem 0;
+        }
+
+        .review-complaint {
+          .ds-h3 {
+            font-size: var(--font-size--md);
+          }
+        }
+        .contact-info-review {
+          list-style-type: none;
+        }
+      }
+    </style>
+    <script>
+      const qs = (s) => document.querySelector(s);
+      const qsa = (s, f) => document.querySelectorAll(s).forEach(f);
+      const setText = (s, t) => (qs(s).innerText = t);
+      const hide = (s) => qs(s).setAttribute("hidden", "");
+      const show = (s) => qs(s).removeAttribute("hidden");
+      const form = qs("form.complaint");
+
+      let allHospitals = [];
+      let hospitals = [];
+
+      form.addEventListener("submit", (e) => {
+        e.preventDefault();
+        new FormData(form);
+      });
+      form.addEventListener("formdata", (e) => {
+        const data = e.formData;
+        console.log(e);
+        // TODO: require at least X chars in what happened
+
+        for (const value of data.entries()) {
+          console.log(value);
+        }
+        // TODO: prep and submit to API rather than show thank-you
+        hide(".review-complaint");
+        show(".thank-you-page");
+        window.scrollTo(
+          0,
+          qs(".thank-you-page h1").getBoundingClientRect().top
+        );
+        return false;
+      });
+
+      qs("button.go-to-review").addEventListener("click", (e) => {
+        //TODO: revalidate date and what happened
+        if (qs(".ds-c-field__error-message:not([hidden])")) {
+          console.error("fix yo stuff");
+          return;
+        }
+        // If anonymous, ensure contact fields are emptied
+        const anon = qs("input[name=file_anonymously][value=yes]").checked;
+        if (anon) {
+          qs("input[name=contact_firstname]").value = "";
+          qs("input[name=contact_lastname]").value = "";
+          qs("input[name=contact_phone]").value = "";
+          qs("input[name=contact_email]").value = "";
+        }
+
+        const tpl = qs(".review-complaint template").innerHTML;
+        // TODO: stop injected markup more cleanly
+        const finished = tpl.replace(
+          /\${"(!?)([^"]+)"}/g,
+          (_, v, s) =>
+            qs(s)[v ? "value" : "innerText"].replace(/</g, "") ||
+            "(no response)"
+        );
+        qs(".review-complaint-content").innerHTML = finished;
+        hide(".data-entry-form");
+        show(".review-complaint");
+        if (anon) {
+          hide(".contact-info-review");
+        }
+        qs(".review-complaint h1").scrollIntoView();
+      });
+
+      qsa("button.back-to-form", (b) =>
+        b.addEventListener("click", (e) => {
+          hide(".review-complaint");
+          show(".data-entry-form");
+          qs(".data-entry-form h1").scrollIntoView();
+        })
+      );
+
+      // Specific actions for field value changes
+      form.addEventListener("change", (e) => {
+        const { name, value } = e.target;
+        const field = e.target;
+
+        if (name === "file_anonymously") {
+          if (value === "yes") {
+            hide(".contact-information");
+          } else {
+            show(".contact-information");
+          }
+        }
+        if (name === "contact_phone") {
+          const digits = value.replace(/\D/g, "");
+          const [, one, ac, ex, ln] =
+            digits.match(/^(1?)([2-9]\d\d)(\d\d\d)(\d\d\d\d)$/) ?? [];
+          if (!ac || !ex || !ln) {
+            return; // TODO: or skip?
+          }
+          const formatted = `${one && "1-"}${ac}-${ex}-${ln}`;
+          field.value = formatted;
+        }
+        if (name === "incident_state") {
+          hide(".hospital-details");
+          hospitals = allHospitals.filter((h) => h.state === value);
+          const input = qs("input[name=hospital_ccn]");
+          input.ariaAutocomplete?.destroy();
+          AriaAutocomplete(input, {
+            source: hospitals.map((h) => ({
+              label: `${h.name}, ${h.city}`,
+              value: h.ccn,
+            })),
+          });
+        }
+        if (name === "hospital_ccn") {
+          const info = hospitals.find((h) => h.ccn == value);
+          if (!info || value === "") {
+            hide(".hospital-details");
+          } else {
+            setText(".hospital-name", info.name);
+            setText(".hospital-address", info.address);
+            setText(
+              ".hospital-city",
+              `${info.city}, ${info.state} ${info.zip}`
+            );
+            setText(".hospital-phone", info.phone);
+            show(".hospital-details");
+          }
+        }
+        if (name === "incident_date") {
+          const idate = new Date(value);
+          // Convert from UTC to local time
+          idate.setMinutes(idate.getMinutes() + idate.getTimezoneOffset());
+          const isBadDate = isNaN(idate) || idate > Date.now();
+          if (isBadDate) {
+            field.classList.add("ds-c-field--error");
+            show(".incident-date-error");
+            return;
+          } else {
+            field.classList.remove("ds-c-field--error");
+            hide(".incident-date-error");
+          }
+          setText(
+            ".incident-date-formatted",
+            isBadDate
+              ? ""
+              : idate.toLocaleDateString("en-US", {
+                  weekday: "long",
+                  year: "numeric",
+                  month: "long",
+                  day: "numeric",
+                })
+          );
+        }
+        if (name === "incident_description") {
+          if (value.length < 10) {
+            field.classList.add("ds-c-field-error");
+            show(".incident-description-error");
+          } else {
+            field.classList.remove("ds-c-field--error");
+            hide(".incident-description-error");
+          }
+        }
+        // This input validated, show next one
+        qs(field.dataset.reveal)?.removeAttribute("hidden");
+      });
+
+      // Set up text counters
+      qsa(".text-counter", (ctr) => {
+        const maxChars = ctr.innerText.replace(/\D/g, "");
+        ctr.previousElementSibling.setAttribute("maxlength", maxChars);
+        ctr.previousElementSibling.addEventListener("input", (e) => {
+          const left = maxChars - e.target.value.length;
+          const count = String(Math.abs(left)).replace(
+            /(\d)(?=(\d{3})+$)/g,
+            "$1,"
+          );
+          ctr.innerText =
+            left < 0
+              ? `Over by ${count} characters`
+              : `${count} characters left`;
+        });
+      });
+
+      function loadERData(json) {
+        allHospitals = json;
+      }
+    </script>
+    <script src="./usa-emergency-rooms.js"></script>
+    <style>
+      /* --------- aria-autocomplete styles --------- */
+      .aria-autocomplete__wrapper {
+        position: relative;
+        font-size: 16px;
+        width: 30rem;
+      }
+      .aria-autocomplete--hide {
+        display: none !important;
+      }
+      .aria-autocomplete__sr-only {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        padding: 0;
+        margin: -1px;
+        overflow: hidden;
+        clip: rect(0, 0, 0, 0);
+        border: 0;
+      }
+      .aria-autocomplete__input {
+        border: 2px solid #444;
+        width: 100%;
+        min-height: 44px;
+        padding: 6px 10px;
+        border-radius: 2px;
+        box-sizing: border-box;
+        font-family: inherit;
+        font-weight: normal;
+      }
+      .aria-autocomplete__input--disabled {
+        background-color: #ebebeb;
+        cursor: not-allowed;
+      }
+      .aria-autocomplete__show-all {
+        position: absolute;
+        top: 0;
+        right: 0;
+        width: 44px;
+        height: 44px;
+        border: 1px solid #606060;
+        background-repeat: no-repeat;
+        background-position: center center;
+        background-image: url("data:image/svg+xml;charset=utf8,%3Csvg width='17' height='10' viewBox='0 0 17 10' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1.023L8.488 8 16 1' stroke-width='1' stroke='%23434143' fill='none' fill-rule='evenodd'/%3E%3C/svg%3E");
+        box-sizing: border-box;
+      }
+      .aria-autocomplete__show-all--disabled {
+        background-color: #ebebeb;
+        cursor: not-allowed;
+      }
+      .aria-autocomplete__list {
+        list-style: none;
+        position: absolute;
+        top: 48px;
+        z-index: 99999;
+        left: 0;
+        margin: 0;
+        padding: 3px 0 !important;
+        height: auto;
+        min-height: 0;
+        max-height: 304px;
+        overflow-y: auto;
+        overflow-x: hidden;
+        width: 100%;
+        background: #fff;
+        border: 1px solid #606060;
+        border-radius: 2px;
+        font-size: 1em;
+        box-sizing: border-box;
+        box-shadow: none;
+      }
+      .aria-autocomplete__list--has-results[aria-label]:before {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        padding: 3px 10px 0;
+        font-size: 13px;
+        text-align: right;
+        opacity: 0.5;
+        box-sizing: border-box;
+      }
+      @media reader, speech, aural {
+        .aria-autocomplete__list--has-results[aria-label]:before {
+          display: none;
+        }
+      }
+      .aria-autocomplete__option {
+        display: block;
+        color: #434143;
+        text-decoration: none;
+        font-weight: normal;
+        list-style: none;
+        cursor: pointer;
+        padding: 7px 10px;
+        margin: 0;
+        word-break: break-word;
+      }
+      .aria-autocomplete__option:focus {
+        border: none;
+        outline: none;
+        box-shadow: none;
+      }
+      .aria-autocomplete__option:hover,
+      .aria-autocomplete__option--focused {
+        background: #f3f3f3;
+        color: #000;
+        border: none;
+        margin: 0;
+        font-weight: normal;
+        text-decoration: underline;
+        cursor: pointer;
+      }
+      .aria-autocomplete__option:hover[aria-disabled="true"],
+      .aria-autocomplete__option--focused[aria-disabled="true"] {
+        background: #f5f5f5;
+      }
+      .aria-autocomplete__option--no-results,
+      .aria-autocomplete__option[aria-disabled="true"] {
+        opacity: 0.65 !important;
+        color: #434143 !important;
+        cursor: not-allowed !important;
+        text-decoration: none !important;
+      }
+      .aria-autocomplete__option--no-results {
+        margin-top: 0 !important;
+        background: transparent !important;
+      }
+      .aria-autocomplete__selected {
+        position: relative;
+        display: inline-flex;
+        align-items: center;
+        background: #606060;
+        border: 1px solid #606060;
+        padding: 0 28px 0 10px;
+        margin: 0;
+        font-size: 13px;
+        color: #f3f3f3;
+        border-radius: 20px;
+        word-break: break-word;
+        cursor: pointer;
+      }
+      .aria-autocomplete__selected--disabled {
+        opacity: 0.7;
+      }
+      .aria-autocomplete__selected:hover,
+      .aria-autocomplete__selected:focus {
+        background: #474747;
+        color: #fff;
+      }
+      .aria-autocomplete__selected:after {
+        content: "";
+        position: absolute;
+        top: 50%;
+        right: 5px;
+        width: 20px;
+        height: 20px;
+        background-repeat: no-repeat;
+        background-position: center center;
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' width='10' height='10' viewBox='0 0 10 10' version='1.1'%3E%3Cg id='surface1'%3E%3Cpath d='M 0.234375 10 L 5 5.21875 L 9.765625 10 L 9.988281 9.78125 L 5.21875 5 L 9.988281 0.21875 L 9.765625 0 L 5 4.78125 L 0.234375 0 L 0.0117188 0.21875 L 4.78125 5 L 0.0117188 9.78125 Z M 0.234375 10 ' style='stroke:%23ffffff;fill-rule:nonzero;fill:%23ffffff;fill-opacity:1;'/%3E%3C/g%3E%3C/svg%3E");
+        transform: translateY(-50%);
+      }
+      @media speech {
+        .aria-autocomplete__selected:after {
+          display: none;
+        }
+      }
+      .aria-autocomplete__selected--delete-all {
+        border-color: #db0000;
+        background: #db0000;
+        color: #fff;
+      }
+      .aria-autocomplete__selected--delete-all:hover,
+      .aria-autocomplete__selected--delete-all:focus {
+        background: #a80000;
+      }
+      .aria-autocomplete__wrapper--multiple .aria-autocomplete__input {
+        margin-bottom: 5px;
+      }
+      .aria-autocomplete__wrapper--show-all,
+      .aria-autocomplete__wrapper--autogrow.aria-autocomplete__wrapper--multiple.aria-autocomplete__wrapper--show-all {
+        padding-right: 43px;
+      }
+      .aria-autocomplete__wrapper--loading:after {
+        content: "";
+        position: absolute;
+        top: 0;
+        right: 0;
+        width: 24px;
+        height: 24px;
+        margin: 10px;
+        border-radius: 50%;
+        background-color: rgba(255, 255, 255, 0.25);
+        border: 2px solid #606060;
+        border-color: #606060 transparent #606060 transparent;
+        box-sizing: border-box;
+        animation: lds-dual-ring 1.2s linear infinite;
+      }
+      .aria-autocomplete__wrapper--loading .aria-autocomplete__show-all {
+        background-image: none;
+      }
+      .aria-autocomplete__wrapper--loading.aria-autocomplete__wrapper--autogrow:after {
+        top: 50%;
+        margin-top: -12px;
+      }
+      .aria-autocomplete__wrapper--autogrow {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        border: 1px solid #606060;
+        width: 100%;
+        min-height: 44px;
+        padding: 6px 10px;
+        border-radius: 2px;
+        box-sizing: border-box;
+      }
+      .aria-autocomplete__wrapper--autogrow.aria-autocomplete__wrapper--disabled {
+        background-color: #ebebeb;
+        cursor: not-allowed;
+      }
+      .aria-autocomplete__wrapper--autogrow .aria-autocomplete__show-all {
+        order: 3;
+        height: 100%;
+        border-top: none;
+        border-right: none;
+        border-bottom: none;
+      }
+      .aria-autocomplete__wrapper--autogrow .aria-autocomplete__input {
+        max-width: 100% !important;
+        max-height: none !important;
+        min-height: 0 !important;
+        padding: 0 !important;
+        margin: 0 !important;
+        line-height: inherit !important;
+        text-indent: 0 !important;
+        background: none !important;
+        border: 0 none !important;
+        outline: 0 !important;
+        box-shadow: none !important;
+        user-select: auto !important;
+        height: 26px;
+        width: 1px;
+        order: 2;
+      }
+      .aria-autocomplete__wrapper--autogrow .aria-autocomplete__list {
+        width: calc(100% + 2px);
+        top: calc(100% + 4px);
+        left: -1px;
+      }
+      .aria-autocomplete__wrapper--autogrow .aria-autocomplete__selected {
+        order: 1;
+      }
+      @keyframes lds-dual-ring {
+        0% {
+          transform: rotate(0deg);
+        }
+        100% {
+          transform: rotate(360deg);
+        }
+      }
+    </style>
+  </body>
+</html>
