@@ -11,7 +11,6 @@
       rel="stylesheet"
       href="https://design.cms.gov/cdn/design-system/8.0.5/css/core-theme.css"
     />
-    <script src="https://unpkg.com/aria-autocomplete"></script>
   </head>
   <body>
     <form class="complaint" action="">
@@ -469,7 +468,7 @@
         <span class="loader"></span>
       </div>
 
-      <!-- ============================ THANK YOU PAGE ============================ -->
+      <!-- ============================ THANK YOU ============================ -->
 
       <div class="thank-you-page" hidden>
         <h1 class="ds-h1">Thank you for filing an EMTALA complaint</h1>
@@ -512,7 +511,7 @@
         </p>
       </div>
     </form>
-
+    <!-- ============================  ============================ -->
     <style>
       form.complaint {
         max-width: 50rem;
@@ -636,7 +635,13 @@
         }
       }
     </style>
+    <!-- ============================  ============================ -->
     <script>
+      const lazyLoad = (s) => {
+        script = document.createElement("script");
+        script.src = s;
+        document.body.appendChild(script);
+      };
       const qs = (s) => document.querySelector(s);
       const qsa = (s, f) => document.querySelectorAll(s).forEach(f);
       const setText = (s, t) => (qs(s).innerText = t);
@@ -646,6 +651,8 @@
 
       let allHospitals = [];
       let hospitals = [];
+      lazyLoad("./usa-emergency-rooms.js");
+      lazyLoad("https://unpkg.com/aria-autocomplete");
 
       form.addEventListener("submit", (e) => {
         e.preventDefault();
@@ -820,7 +827,6 @@
         allHospitals = json;
       }
     </script>
-    <script src="./usa-emergency-rooms.js"></script>
     <style>
       /* --------- aria-autocomplete styles --------- */
       .aria-autocomplete__wrapper {
