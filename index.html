@@ -432,7 +432,7 @@
         <p>If you need to make changes, just go back to the form.</p>
         <p>
           <button
-            class="back-to-form ds-c-button ds-c-button--outline"
+            class="back-to-form page-top ds-c-button ds-c-button--outline"
             type="button"
           >
             Go back to the form
@@ -466,6 +466,7 @@
         >
           File your complaint
         </button>
+        <span class="loader"></span>
       </div>
 
       <!-- ============================ THANK YOU PAGE ============================ -->
@@ -560,6 +561,9 @@
           margin: 0.5rem 0.5rem 0.5rem 0;
         }
 
+        .back-to-form.page-top {
+          margin: 1.5rem 0;
+        }
         .review-complaint {
           .ds-h3 {
             font-size: var(--font-size--md);
@@ -567,6 +571,68 @@
         }
         .contact-info-review {
           list-style-type: none;
+        }
+      }
+      .loader.active {
+        display: inline-block;
+        font-size: 10px;
+        width: 1.5em;
+        height: 1.5em;
+        border-radius: 50%;
+        position: relative;
+        text-indent: -9999em;
+        animation: mulShdSpin 1.1s infinite ease;
+        transform: translate(4em, 0);
+      }
+      @keyframes mulShdSpin {
+        0%,
+        100% {
+          box-shadow: 0em -2.6em 0em 0em #ffffff, 1.8em -1.8em 0 0em #0171bd,
+            2.5em 0em 0 0em #0171bd, 1.75em 1.75em 0 0em #0171bd,
+            0em 2.5em 0 0em #0171bd, -1.8em 1.8em 0 0em #0171bd,
+            -2.6em 0em 0 0em #0171bd, -1.8em -1.8em 0 0em #0171bd;
+        }
+        12.5% {
+          box-shadow: 0em -2.6em 0em 0em #0171bd, 1.8em -1.8em 0 0em #ffffff,
+            2.5em 0em 0 0em #0171bd, 1.75em 1.75em 0 0em #0171bd,
+            0em 2.5em 0 0em #0171bd, -1.8em 1.8em 0 0em #0171bd,
+            -2.6em 0em 0 0em #0171bd, -1.8em -1.8em 0 0em #0171bd;
+        }
+        25% {
+          box-shadow: 0em -2.6em 0em 0em #0171bd, 1.8em -1.8em 0 0em #0171bd,
+            2.5em 0em 0 0em #ffffff, 1.75em 1.75em 0 0em #0171bd,
+            0em 2.5em 0 0em #0171bd, -1.8em 1.8em 0 0em #0171bd,
+            -2.6em 0em 0 0em #0171bd, -1.8em -1.8em 0 0em #0171bd;
+        }
+        37.5% {
+          box-shadow: 0em -2.6em 0em 0em #0171bd, 1.8em -1.8em 0 0em r#0171bd,
+            2.5em 0em 0 0em #0171bd, 1.75em 1.75em 0 0em #ffffff,
+            0em 2.5em 0 0em #0171bd, -1.8em 1.8em 0 0em #0171bd,
+            -2.6em 0em 0 0em #0171bd, -1.8em -1.8em 0 0em #0171bd;
+        }
+        50% {
+          box-shadow: 0em -2.6em 0em 0em #0171bd, 1.8em -1.8em 0 0em #0171bd,
+            2.5em 0em 0 0em #0171bd, 1.75em 1.75em 0 0em #0171bd,
+            0em 2.5em 0 0em #ffffff, -1.8em 1.8em 0 0em #0171bd,
+            -2.6em 0em 0 0em #0171bd, -1.8em -1.8em 0 0em #0171bd;
+        }
+        62.5% {
+          box-shadow: 0em -2.6em 0em 0em #0171bd, 1.8em -1.8em 0 0em #0171bd,
+            2.5em 0em 0 0em #0171bd, 1.75em 1.75em 0 0em #0171bd,
+            0em 2.5em 0 0em #0171bd, -1.8em 1.8em 0 0em #ffffff,
+            -2.6em 0em 0 0em #0171bd, -1.8em -1.8em 0 0em #0171bd;
+        }
+        75% {
+          box-shadow: 0em -2.6em 0em 0em #0171bd, 1.8em -1.8em 0 0em #0171bd,
+            2.5em 0em 0 0em #0171bd, 1.75em 1.75em 0 0em #0171bd,
+            0em 2.5em 0 0em #0171bd, -1.8em 1.8em 0 0em #0171bd,
+            -2.6em 0em 0 0em #ffffff, -1.8em -1.8em 0 0em #0171bd;
+        }
+        87.5% {
+          box-shadow: 0em -2.6em 0em 0em #0171bd, 1.8em -1.8em 0 0em #0171bd,
+            2.5em 0em 0 0em #0171bd, 1.75em 1.75em 0 0em #0171bd,
+            0em 2.5em 0 0em #0171bd, -1.8em 1.8em 0 0em #0171bd,
+            -2.6em 0em 0 0em #0171bd, -1.8em -1.8em 0 0em #ffffff;
         }
       }
     </style>
@@ -594,12 +660,15 @@
           console.log(value);
         }
         // TODO: prep and submit to API rather than show thank-you
-        hide(".review-complaint");
-        show(".thank-you-page");
-        window.scrollTo(
-          0,
-          qs(".thank-you-page h1").getBoundingClientRect().top
-        );
+        // Simulate a delay submitting to the server
+        qs(".loader").classList.add("active");
+        setTimeout(() => {
+          qs(".loader").classList.remove("active");
+          hide(".review-complaint");
+          show(".thank-you-page");
+          qs(".thank-you-page h1").scrollIntoView();
+        }, 1000);
+
         return false;
       });
 
