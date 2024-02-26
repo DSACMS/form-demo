@@ -444,12 +444,12 @@
           To keep this information for your records, you can save this page as a
           PDF on your computer or mobile phone.
         </p>
-        <p>
+        <p class="bold-text">
           Once you file your complaint, you can't make changes to the
           information you provided. If you provided your contact information, a
           state or federal investigator might reach out to you.
         </p>
-        <p>
+        <p class="bold-text">
           By clicking “File your complaint,” you are confirming that all the
           information in your complaint is true, to the best of your knowledge.
         </p>
@@ -495,7 +495,7 @@
           If your complaint is about a situation not covered by EMTALA, it will
           be sent to the right office, or closed.
         </p>
-        <p>Here are some resources:</p>
+        <p class="bold-text">Here are some resources:</p>
         <ul>
           <li><a href="">Contact information for State Survey Agencies</a></li>
           <li><a href="">Your emergency department rights</a></li>
@@ -570,6 +570,13 @@
         }
         .contact-info-review {
           list-style-type: none;
+        }
+        .bold-text {
+          font-weight: bold;
+        }
+        .review-complaint-content {
+          border-bottom: 2px solid #445;
+          padding-bottom: 1.25em;
         }
       }
       .loader.active {
@@ -741,9 +748,11 @@
           const formatted = `${one && "1-"}${ac}-${ex}-${ln}`;
           field.value = formatted;
         }
-        if (name === "incident_state") {
+        // State may have been autofilled but no onchange
+        const state = qs("select[name=incident_state]").value;
+        if (name === "incident_state" || (name === "relationship" && state)) {
           hide(".hospital-details");
-          hospitals = allHospitals.filter((h) => h.state === value);
+          hospitals = allHospitals.filter((h) => h.state === state);
           const input = qs("input[name=hospital_ccn]");
           input.ariaAutocomplete?.destroy();
           AriaAutocomplete(input, {
