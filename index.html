@@ -38,7 +38,7 @@
                 type="radio"
                 class="ds-c-choice"
                 id="anon-no-input"
-                name="file_anonymously"
+                name="isAnonymous"
                 value="no"
                 data-reveal=".relationship-to-patient"
               />
@@ -59,7 +59,7 @@
                 type="radio"
                 class="ds-c-choice"
                 id="anon-yes-input"
-                name="file_anonymously"
+                name="isAnonymous"
                 value="yes"
                 data-reveal=".relationship-to-patient"
               />
@@ -87,7 +87,7 @@
             <input
               id="id-contact-firstname"
               class="ds-c-field"
-              name="contact_firstname"
+              name="firstname"
               autocomplete="given-name"
               maxlength="50"
             />
@@ -99,7 +99,7 @@
             <input
               id="id-contact-lastname"
               class="ds-c-field"
-              name="contact_lastname"
+              name="lastname"
               autocomplete="family-name"
               maxlength="50"
             />
@@ -110,7 +110,7 @@
               type="text"
               id="id-contact-phone"
               class="ds-c-field"
-              name="contact_phone"
+              name="phone"
               autocomplete="tel"
               maxlength="30"
             />
@@ -121,7 +121,7 @@
               type="text"
               id="id-contact-email"
               class="ds-c-field"
-              name="contact_email"
+              name="email"
               autocomplete="email"
               maxlength="50"
             />
@@ -137,7 +137,7 @@
               type="radio"
               class="ds-c-choice"
               id="id-relationship-patient"
-              name="relationship"
+              name="relationToPatient"
               value="self"
               data-reveal=".hospital-location"
             />
@@ -150,7 +150,7 @@
               type="radio"
               class="ds-c-choice"
               id="id-relationship-helper"
-              name="relationship"
+              name="relationToPatient"
               value="helper"
               data-reveal=".hospital-location"
             />
@@ -163,7 +163,7 @@
               type="radio"
               class="ds-c-choice"
               id="id-relationship-worker"
-              name="relationship"
+              name="relationToPatient"
               value="worker"
               data-reveal=".hospital-location"
             />
@@ -176,7 +176,7 @@
               type="radio"
               class="ds-c-choice"
               id="id-relationship-anon"
-              name="relationship"
+              name="relationToPatient"
               value="anonymous"
               data-reveal=".hospital-location"
             />
@@ -200,7 +200,7 @@
               >Select a U.S. state or territory</label
             >
             <select
-              name="incident_state"
+              name="state"
               id="id-incident-state"
               class="ds-c-field"
               required
@@ -266,11 +266,12 @@
           </div>
 
           <div class="hospital-dropdown ds-u-clearfix" hidden>
-            <label class="ds-c-label"> Hospital name</label>
+            <label for="id-facility" class="ds-c-label"> Hospital name</label>
             <input
               class="ds-c-field"
+              id="id-facility"
               type="text"
-              name="hospital_ccn"
+              name="facilityCCN"
               data-reveal=".date-of-incident"
             />
             <div class="hospital-details" hidden>
@@ -310,7 +311,7 @@
             type="date"
             id="incident-date"
             class="ds-c-field"
-            name="incident_date"
+            name="dateOfIncident"
             required
             data-reveal=".description-of-incident"
           />
@@ -349,7 +350,7 @@
                 Please enter at least 250 characters here.
               </span>
             </label>
-            <textarea name="incident_description" class="ds-c-field"></textarea>
+            <textarea name="description" class="ds-c-field"></textarea>
             <div class="text-counter">(Up to 3,000 characters)</div>
           </div>
 
@@ -360,7 +361,7 @@
                 >If so, what office did you report this problem to?</span
               ></label
             >
-            <textarea name="previously_reported" class="ds-c-field"></textarea>
+            <textarea name="previouslyReported" class="ds-c-field"></textarea>
             <div class="text-counter">(Up to 200 characters)</div>
           </div>
 
@@ -384,11 +385,9 @@
           <h3 class="ds-h3">${".filing-choice legend"}</h3>
           <p>${".filing-choice input:checked + label :first-child"}</p>
           <ul class="contact-info-review">
-            <li>
-              Name: ${"![name=contact_firstname]"} ${"![name=contact_lastname]"}
-            </li>
-            <li>Phone: ${"![name=contact_phone]"}</li>
-            <li>Email: ${"![name=contact_email]"}</li>
+            <li>Name: ${"![name=firstname]"} ${"![name=lastname]"}</li>
+            <li>Phone: ${"![name=phone]"}</li>
+            <li>Email: ${"![name=email]"}</li>
           </ul>
           <h3 class="ds-h3">${".relationship-to-patient legend"}</h3>
           <p>
@@ -414,12 +413,12 @@
           <h3 class="ds-h3">
             ${".description-of-incident label :first-child"}
           </h3>
-          <p>${"!textarea[name=incident_description]"}</p>
+          <p>${"!textarea[name=description]"}</p>
 
           <h3 class="ds-h3">
             ${".reported-problem-before label :first-child"}
           </h3>
-          <p>${"!textarea[name=previously_reported]"}</p>
+          <p>${"!textarea[name=previouslyReported]"}</p>
         </template>
 
         <h1 class="ds-h1">Review your EMTALA complaint</h1>
@@ -528,7 +527,7 @@
         select {
           width: auto;
         }
-        textarea[name="incident_description"] {
+        textarea[name="description"] {
           height: 20ex;
         }
         .ds-c-field__hint ul {
@@ -693,12 +692,12 @@
           return;
         }
         // If anonymous, ensure contact fields are emptied
-        const anon = qs("input[name=file_anonymously][value=yes]").checked;
+        const anon = qs("input[name=isAnonymous][value=yes]").checked;
         if (anon) {
-          qs("input[name=contact_firstname]").value = "";
-          qs("input[name=contact_lastname]").value = "";
-          qs("input[name=contact_phone]").value = "";
-          qs("input[name=contact_email]").value = "";
+          qs("input[name=firstname]").value = "";
+          qs("input[name=lastname]").value = "";
+          qs("input[name=phone]").value = "";
+          qs("input[name=email]").value = "";
         }
 
         const tpl = qs(".review-complaint template").innerHTML;
@@ -731,14 +730,14 @@
         const { name, value } = e.target;
         const field = e.target;
 
-        if (name === "file_anonymously") {
+        if (name === "isAnonymous") {
           if (value === "yes") {
             hide(".contact-information");
           } else {
             show(".contact-information");
           }
         }
-        if (name === "contact_phone") {
+        if (name === "phone") {
           const digits = value.replace(/\D/g, "");
           const [, one, ac, ex, ln] =
             digits.match(/^(1?)([2-9]\d\d)(\d\d\d)(\d\d\d\d)$/) ?? [];
@@ -749,11 +748,11 @@
           field.value = formatted;
         }
         // State may have been autofilled but no onchange
-        const state = qs("select[name=incident_state]").value;
-        if (name === "incident_state" || (name === "relationship" && state)) {
+        const state = qs("select[name=state]").value;
+        if (name === "state" || (name === "relationToPatient" && state)) {
           hide(".hospital-details");
           hospitals = allHospitals.filter((h) => h.state === state);
-          const input = qs("input[name=hospital_ccn]");
+          const input = qs("input[name=facilityCCN]");
           input.ariaAutocomplete?.destroy();
           AriaAutocomplete(input, {
             source: hospitals.map((h) => ({
@@ -762,7 +761,7 @@
             })),
           });
         }
-        if (name === "hospital_ccn") {
+        if (name === "facilityCCN") {
           const info = hospitals.find((h) => h.ccn == value);
           if (!info || value === "") {
             hide(".hospital-details");
@@ -777,7 +776,7 @@
             show(".hospital-details");
           }
         }
-        if (name === "incident_date") {
+        if (name === "dateOfIncident") {
           const idate = new Date(value);
           // Convert from UTC to local time
           idate.setMinutes(idate.getMinutes() + idate.getTimezoneOffset());
@@ -802,7 +801,7 @@
                 })
           );
         }
-        if (name === "incident_description") {
+        if (name === "description") {
           if (value.length < 10) {
             field.classList.add("ds-c-field-error");
             show(".incident-description-error");
