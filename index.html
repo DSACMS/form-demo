@@ -569,6 +569,7 @@
         }
         .contact-info-review {
           list-style-type: none;
+          gap: 0;
         }
         .bold-text {
           font-weight: bold;
@@ -648,73 +649,82 @@
         script.src = s;
         document.body.appendChild(script);
       };
+      const addCommas = (n) => String(n).replace(/(\d)(?=(\d{3})+$)/g, "$1,");
+      const htmlEncode = (s) =>
+        s.replace(/[\u00A0-\u9999<>\&]/g, (i) => `&#${i.charCodeAt(0)};`);
       const qs = (s) => document.querySelector(s);
       const qsa = (s, f) => document.querySelectorAll(s).forEach(f);
       const setText = (s, t) => (qs(s).innerText = t);
       const hide = (s) => qs(s).setAttribute("hidden", "");
       const show = (s) => qs(s).removeAttribute("hidden");
-      const form = qs("form.complaint");
 
       let allHospitals = [];
       let hospitals = [];
-      lazyLoad("./usa-emergency-rooms.js");
-      lazyLoad("https://unpkg.com/aria-autocomplete");
 
-      form.addEventListener("submit", (e) => {
-        e.preventDefault();
-        new FormData(form);
-      });
-      form.addEventListener("formdata", (e) => {
-        const data = e.formData;
-        console.log(e);
-        // TODO: require at least X chars in what happened
-
-        for (const value of data.entries()) {
-          console.log(value);
+      qs("button.go-to-review").addEventListener("click", (e) => {
+        // TODO: If non-anon, check for name and >0 contact
+        // TODO: check that date is today or earlier
+        // TODO: require at least X chars in description
+        // TODO: Set error classes and show error messags
+        if (qs(".ds-c-field__error-message:not([hidden])")) {
+          // TODO: error message right above button?
+          console.error("fix yo stuff");
+          return;
         }
-        // TODO: prep and submit to API rather than show thank-you
+
+        const tpl = qs(".review-complaint template").innerHTML;
+        const finished = tpl.replace(
+          /\${"(!?)([^"]+)"}/g,
+          (_, v, s) =>
+            htmlEncode(qs(s)[v ? "value" : "innerText"]) || "(no response)"
+        );
+        qs(".review-complaint-content").innerHTML = finished;
+        hide(".data-entry-form");
+        show(".review-complaint");
+        if (qs("input[name=isAnonymous][value=yes]").checked) {
+          hide(".contact-info-review");
+        } else {
+          show(".contact-info-review");
+        }
+        qs(".review-complaint h1").scrollIntoView();
+      });
+
+      qs("form.complaint").addEventListener("submit", (e) => {
+        e.preventDefault();
+        const fields = Object.fromEntries(new FormData(e.target));
+
+        // Form was validated earlier
+        const isAnonymous = fields.isAnonymous === "yes";
+        const apiData = {
+          complainant: {
+            isAnonymous,
+            relationToPatient: fields.relationToPatient,
+            firstname: isAnonymous ? "" : fields.firstname,
+            lastname: isAnonymous ? "" : fields.lastname,
+            phone: isAnonymous ? "" : fields.phone,
+            email: isAnonymous ? "" : fields.email,
+          },
+          facilityCCN: fields.facilityCCN,
+          dateOfIncident: fields.dateOfIncident,
+          description: fields.description,
+          previouslyReported: fields.previouslyReported,
+        };
+
+        // TODO: submit to API
+        console.log(apiData);
+
         // Simulate a delay submitting to the server
         qs(".loader").classList.add("active");
+        // TODO: disable submit button
         setTimeout(() => {
           qs(".loader").classList.remove("active");
+          // TODO: re-enable submit button
           hide(".review-complaint");
           show(".thank-you-page");
           qs(".thank-you-page h1").scrollIntoView();
         }, 1000);
 
         return false;
-      });
-
-      qs("button.go-to-review").addEventListener("click", (e) => {
-        //TODO: revalidate date and what happened
-        if (qs(".ds-c-field__error-message:not([hidden])")) {
-          console.error("fix yo stuff");
-          return;
-        }
-        // If anonymous, ensure contact fields are emptied
-        const anon = qs("input[name=isAnonymous][value=yes]").checked;
-        if (anon) {
-          qs("input[name=firstname]").value = "";
-          qs("input[name=lastname]").value = "";
-          qs("input[name=phone]").value = "";
-          qs("input[name=email]").value = "";
-        }
-
-        const tpl = qs(".review-complaint template").innerHTML;
-        // TODO: stop injected markup more cleanly
-        const finished = tpl.replace(
-          /\${"(!?)([^"]+)"}/g,
-          (_, v, s) =>
-            qs(s)[v ? "value" : "innerText"].replace(/</g, "") ||
-            "(no response)"
-        );
-        qs(".review-complaint-content").innerHTML = finished;
-        hide(".data-entry-form");
-        show(".review-complaint");
-        if (anon) {
-          hide(".contact-info-review");
-        }
-        qs(".review-complaint h1").scrollIntoView();
       });
 
       qsa("button.back-to-form", (b) =>
@@ -726,7 +736,7 @@
       );
 
       // Specific actions for field value changes
-      form.addEventListener("change", (e) => {
+      qs("form.complaint").addEventListener("change", (e) => {
         const { name, value } = e.target;
         const field = e.target;
 
@@ -780,25 +790,22 @@
           const idate = new Date(value);
           // Convert from UTC to local time
           idate.setMinutes(idate.getMinutes() + idate.getTimezoneOffset());
-          const isBadDate = isNaN(idate) || idate > Date.now();
-          if (isBadDate) {
+          if (isNaN(idate) || idate > Date.now()) {
             field.classList.add("ds-c-field--error");
             show(".incident-date-error");
+            setText(".incident-date-formatted", "");
             return;
-          } else {
-            field.classList.remove("ds-c-field--error");
-            hide(".incident-date-error");
           }
+          field.classList.remove("ds-c-field--error");
+          hide(".incident-date-error");
           setText(
             ".incident-date-formatted",
-            isBadDate
-              ? ""
-              : idate.toLocaleDateString("en-US", {
-                  weekday: "long",
-                  year: "numeric",
-                  month: "long",
-                  day: "numeric",
-                })
+            idate.toLocaleDateString("en-US", {
+              weekday: "long",
+              year: "numeric",
+              month: "long",
+              day: "numeric",
+            })
           );
         }
         if (name === "description") {
@@ -816,21 +823,22 @@
 
       // Set up text counters
       qsa(".text-counter", (ctr) => {
+        // Make hard limit of X chars, as given in the initial message
         const maxChars = ctr.innerText.replace(/\D/g, "");
         ctr.previousElementSibling.setAttribute("maxlength", maxChars);
         ctr.previousElementSibling.addEventListener("input", (e) => {
-          const left = maxChars - e.target.value.length;
-          const count = String(Math.abs(left)).replace(
-            /(\d)(?=(\d{3})+$)/g,
-            "$1,"
-          );
+          // TODO: clear min message length error if not empty
+          const count = maxChars - e.target.value.length;
           ctr.innerText =
-            left < 0
-              ? `Over by ${count} characters`
-              : `${count} characters left`;
+            count < 0
+              ? `Over by ${addCommas(-count)} characters`
+              : `${addCommas(count)} characters left`;
         });
       });
 
+      // Lazy load list of hospitals and the autocomplete widget
+      lazyLoad("./usa-emergency-rooms.js");
+      lazyLoad("https://unpkg.com/aria-autocomplete");
       function loadERData(json) {
         allHospitals = json;
       }
