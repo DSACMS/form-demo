@@ -324,7 +324,7 @@
 
         <div class="description-of-incident" hidden>
           <div class="ds-u-clearfix">
-            <label class="ds-c-label">
+            <label for="id-description" class="ds-c-label">
               <span>Describe the situation in detail. </span>
               <div class="ds-c-field__hint">
                 Be sure to include:
@@ -350,7 +350,11 @@
                 Please enter at least 250 characters here.
               </span>
             </label>
-            <textarea name="description" class="ds-c-field"></textarea>
+            <textarea
+              name="description"
+              id="id-description"
+              class="ds-c-field"
+            ></textarea>
             <div class="text-counter">(Up to 3,000 characters)</div>
           </div>
 
@@ -661,12 +665,29 @@
       let allHospitals = [];
       let hospitals = [];
 
+      const validateDesc = (field, value) => {
+        if (value.length < 10) {
+          field.classList.add("ds-c-field-error");
+          show(".incident-description-error");
+          return false;
+        }
+        field.classList.remove("ds-c-field--error");
+        hide(".incident-description-error");
+        return true;
+      };
+
+      qs("textarea[name=description]").addEventListener("focusout", (e) =>
+        validateDesc(e.target, e.target.value)
+      );
+
       qs("button.go-to-review").addEventListener("click", (e) => {
         // TODO: If non-anon, check for name and >0 contact
         // TODO: check that date is today or earlier
         // TODO: require at least X chars in description
         // TODO: Set error classes and show error messags
         if (qs(".ds-c-field__error-message:not([hidden])")) {
+          // ***** this won't work b/c empty field didn't "change"
+          // validate the field on blur
           // TODO: error message right above button?
           console.error("fix yo stuff");
           return;
@@ -686,7 +707,7 @@
         } else {
           show(".contact-info-review");
         }
-        qs(".review-complaint h1").scrollIntoView();
+        qs("form.complaint").scrollIntoView();
       });
 
       qs("form.complaint").addEventListener("submit", (e) => {
@@ -721,7 +742,7 @@
           // TODO: re-enable submit button
           hide(".review-complaint");
           show(".thank-you-page");
-          qs(".thank-you-page h1").scrollIntoView();
+          qs("form.complaint").scrollIntoView();
         }, 1000);
 
         return false;
@@ -731,7 +752,7 @@
         b.addEventListener("click", (e) => {
           hide(".review-complaint");
           show(".data-entry-form");
-          qs(".data-entry-form h1").scrollIntoView();
+          qs("form.complaint").scrollIntoView();
         })
       );
 
@@ -754,8 +775,7 @@
           if (!ac || !ex || !ln) {
             return; // TODO: or skip?
           }
-          const formatted = `${one && "1-"}${ac}-${ex}-${ln}`;
-          field.value = formatted;
+          field.value = `${one && "1-"}${ac}-${ex}-${ln}`;
         }
         // State may have been autofilled but no onchange
         const state = qs("select[name=state]").value;
@@ -808,14 +828,8 @@
             })
           );
         }
-        if (name === "description") {
-          if (value.length < 10) {
-            field.classList.add("ds-c-field-error");
-            show(".incident-description-error");
-          } else {
-            field.classList.remove("ds-c-field--error");
-            hide(".incident-description-error");
-          }
+        if (name === "description" && !validateDesc(field, value)) {
+          return;
         }
         // This input validated, show next one
         qs(field.dataset.reveal)?.removeAttribute("hidden");
