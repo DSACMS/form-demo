@@ -1,0 +1,540 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>test</title>
+    <link
+      rel="stylesheet"
+      href="https://designsystem.digital.gov/assets/css/styles.css"
+    />
+    <script src="https://designsystem.digital.gov/assets/js/vendor/uswds-init.min.js"></script>
+    <style>
+      body {
+        margin: 1rem;
+      }
+      usa-input {
+        display: block;
+        width: 60em;
+      }
+    </style>
+    <script>
+      // Utilities
+      function classes(...args) {
+        return args.filter((x) => typeof x === "string").join(" ");
+      }
+
+      // TODO: define base class for form elements
+
+      customElements.define(
+        "usa-radio-group",
+        class UsaRadioGroup extends HTMLElement {
+          static observedAttributes = [
+            // Custom element attrs
+            "disabled", // on fieldset
+            "error",
+            "hint",
+            "label",
+            "legend",
+            "name", // default name for radios
+            "required", // one selected???
+            "value", // default selected
+          ];
+          static mappedProps = {};
+          static proxiedMethods = ["focus", "blur"];
+
+          static idCount = 0;
+
+          #initialized = false;
+          #id = `radio-group-${++this.constructor.idCount}`;
+          #input;
+          #label;
+          #hint;
+          #error;
+          #variant;
+
+          componentHTML = `
+            <fieldset class="usa-fieldset">
+              <legend class="label usa-legend"></legend>
+              <div class="hint usa-hint" hidden></div>
+              <div class="usa-error-message" hidden></div>
+            </fieldset>
+          `;
+
+          constructor() {
+            super();
+          }
+
+          #attrChange(name, oldValue, value) {
+            switch (name) {
+              case "label":
+              case "legend":
+                this.#label.innerText = value ?? "";
+                return;
+              case "hint":
+                this.#hint.innerText = value ?? "";
+                return;
+              case "error":
+                this.#error.innerText = value ?? "";
+                if (value) {
+                  this.#error.removeAttribute("hidden");
+                } else {
+                  this.#error.setAttribute("hidden", "");
+                }
+                return;
+              case "variant":
+                this.#variant = value;
+                return;
+              default:
+                return;
+            }
+          }
+
+          validationMessages = [
+            // ["patternMismatch", "{{label}} does not match the required format"],
+            // ["rangeOverflow", "{{label}} cannot be larger than {{max}}"],
+            // ["rangeUnderflow", "{{label}} must be at least {{min}}"],
+            // ["tooLong", "Enter no more than {{maxlength}} characters"],
+            // ["tooShort", "Enter at least {{minlength}} characters"],
+            // ["typeMismatch", "{{label}} format is not valid"],
+            // ["badInput", "{{label}} has invalid formatting"],
+            // ["stepMismatch", "{{label}} must be a multiple of {{step}}"],
+            ["customError", "customError was set"],
+            ["valueMissing", "{{label}} is required"],
+          ];
+          getCustomError(type, elem) {
+            // TODO: Look at type and change strings?
+            const validity = elem.validity;
+            const error = this.validationMessages.find((m) => validity[m[0]]);
+            if (!error) {
+              return validity.valid ? "" : "Unknown error";
+            }
+            const msg = error[1].replace(
+              /{{(\w+)}}/g,
+              (_, attr) => elem.getAttribute(attr) || this.getAttribute(attr)
+            );
+            return msg;
+          }
+
+          connectedCallback() {
+            if (this.#initialized) return;
+            this.#initialized = true;
+
+            // Wait until light-dom children arrive
+            window.setTimeout(() => {
+              const checks = Array.from(this.children);
+              this.innerHTML = this.componentHTML;
+              this.firstElementChild.append(...checks);
+              this.#label = this.querySelector(".label");
+              this.#hint = this.querySelector(".hint");
+              this.#error = this.querySelector(".usa-error-message");
+              Array.from(this.attributes).forEach(({ name, value }) =>
+                this.#attrChange(name, null, value)
+              );
+            });
+          }
+
+          attributeChangedCallback(...args) {
+            if (this.#initialized) {
+              this.#attrChange(...args);
+            }
+          }
+        }
+      );
+      /* --------------------------------- */
+      customElements.define(
+        "usa-radio",
+        class UsaRadio extends HTMLElement {
+          static observedAttributes = [
+            // Custom element attrs
+            "error",
+            "hint",
+            "label",
+            // Observed attrs proxied to input
+            "checked", // added
+            "disabled",
+            "name",
+            //"readonly",
+            "required",
+            //"type",
+            "value",
+          ];
+          static mappedProps = {
+            //   readonly: "readOnly",
+            //   minlength: "minLength",
+            //   maxlength: "maxLength",
+          };
+          static proxiedMethods = [
+            "focus",
+            "blur",
+            // "checkValidity",
+            // "reportValidity",
+            // "select",
+            // "setSelectionRange",
+            // "setRangeText",
+          ];
+
+          static idCount = 0;
+
+          #initialized = false;
+          #id = `radio-${++this.constructor.idCount}`;
+          #input;
+          #label;
+          #hint;
+          #error;
+          #variant;
+
+          componentHTML = `
+            <div class="usa-radio">
+              <input
+                class=${classes(
+                  "usa-radio__input",
+                  false && "usa-radio__input--tile"
+                )}
+                id="${this.#id}-r"
+                type="radio"
+                name="historical-figures-2"
+                value="1"
+              />
+              <label class="usa-radio__label" for="${this.#id}-r"></label>
+              <span class="hint usa-checkbox__label-description" id="${
+                this.#id
+              }-h"></span>
+              <span class="usa-error-message" hidden></span>
+            </div>
+          `;
+
+          constructor() {
+            super();
+          }
+
+          #attrChange(name, oldValue, value) {
+            switch (name) {
+              case "label":
+                this.#label.innerText = value ?? "";
+                return;
+              case "hint":
+                this.#hint.innerText = value ?? "";
+                if (value) {
+                  this.#hint.removeAttribute("hidden");
+                  this.#input.setAttribute("aria-describedBy", this.#hint.id);
+                } else {
+                  this.#hint.setAttribute("hidden", "");
+                  this.#input.removeAttribute("aria-describedBy");
+                }
+                return;
+              case "error":
+                this.#error.innerText = value ?? "";
+                this.#input.classList.toggle("usa-input--error", !!value);
+                if (value) {
+                  this.#error.removeAttribute("hidden");
+                } else {
+                  this.#error.setAttribute("hidden", "");
+                }
+                return;
+              case "variant":
+                this.#variant = value;
+                return;
+              default:
+                if (value === null) {
+                  this.#input.removeAttribute(name);
+                } else {
+                  this.#input.setAttribute(name, value);
+                }
+                return;
+            }
+          }
+
+          validationMessages = [
+            // ["patternMismatch", "{{label}} does not match the required format"],
+            // ["rangeOverflow", "{{label}} cannot be larger than {{max}}"],
+            // ["rangeUnderflow", "{{label}} must be at least {{min}}"],
+            // ["tooLong", "Enter no more than {{maxlength}} characters"],
+            // ["tooShort", "Enter at least {{minlength}} characters"],
+            // ["typeMismatch", "{{label}} format is not valid"],
+            // ["badInput", "{{label}} has invalid formatting"],
+            // ["stepMismatch", "{{label}} must be a multiple of {{step}}"],
+            ["customError", "customError was set"],
+            ["valueMissing", "{{label}} is required"],
+          ];
+          getCustomError(type, elem) {
+            const validity = elem.validity;
+            const error = this.validationMessages.find((m) => validity[m[0]]);
+            if (!error) {
+              return validity.valid ? "" : "Unknown error";
+            }
+            const msg = error[1].replace(
+              /{{(\w+)}}/g,
+              (_, attr) => elem.getAttribute(attr) || this.getAttribute(attr)
+            );
+            return msg;
+          }
+
+          connectedCallback() {
+            if (this.#initialized) return;
+            this.#initialized = true;
+
+            // Inject HTML markup and cache references
+            this.innerHTML = this.componentHTML;
+            this.#label = this.querySelector("label");
+            this.#input = this.querySelector("input");
+            this.#hint = this.querySelector(".hint");
+            this.#error = this.querySelector(".usa-error-message");
+
+            // Add proxies for properties/methods sent to <input>
+            for (let name of this.constructor.observedAttributes) {
+              name = this.constructor.mappedProps[name] ?? name;
+              if (this.#input[name] !== undefined) {
+                Object.defineProperty(this, name, {
+                  get: () => this.#input[name],
+                  set: (v) => (this.#input[name] = v),
+                  enumerable: true,
+                });
+              }
+            }
+            for (const name of this.constructor.proxiedMethods) {
+              this[name] = this.#input[name].bind(this.#input);
+            }
+
+            // Get usa-radio-group default values
+            this.#input.name = this.parentElement.getAttribute("name") ?? "";
+            this.#variant = this.parentElement.getAttribute("variant");
+
+            // Process _all_ attrs at init, not just observed ones
+            Array.from(this.attributes).forEach(({ name, value }) =>
+              this.#attrChange(name, null, value)
+            );
+
+            // Customize the error presentation
+            this.#input.addEventListener("invalid", (e) => {
+              e.preventDefault();
+              const msg = this.getCustomError("input", e.target);
+              this.#attrChange("error", "", msg);
+            });
+            this.#input.addEventListener("change", (e) => {
+              if (e.target.reportValidity()) {
+                this.#attrChange("error", "!", "");
+              }
+            });
+          }
+
+          attributeChangedCallback(...args) {
+            if (this.#initialized) {
+              this.#attrChange(...args);
+            }
+          }
+        }
+      );
+      /* --------------------------------- */
+      customElements.define(
+        "usa-input",
+        class UsaInput extends HTMLElement {
+          static observedAttributes = [
+            // Custom element attrs
+            "error",
+            "hint",
+            "label",
+            // Observed attrs proxied to input
+            "disabled",
+            "name",
+            "readonly",
+            "required",
+            "type",
+            "value",
+          ];
+          static mappedProps = {
+            readonly: "readOnly",
+            minlength: "minLength",
+            maxlength: "maxLength",
+          };
+          static proxiedMethods = [
+            "focus",
+            "blur",
+            "checkValidity",
+            "reportValidity",
+            "select",
+            "setSelectionRange",
+            "setRangeText",
+          ];
+
+          static idCount = 0;
+
+          #initialized = false;
+          #id = `input-${++this.constructor.idCount}`;
+          #input;
+          #label;
+          #hint;
+          #error;
+
+          componentHTML = `
+            <label class="usa-label" for="${this.#id}-i"></label>
+            <span class="hint usa-hint" id="${this.#id}-h" hidden></span>
+            <input class="usa-input" id="${this.#id}-i" />
+            <span class="usa-error-message" id="${this.#id}-e"hidden></span>
+          `;
+
+          constructor() {
+            super();
+          }
+
+          #attrChange(name, oldValue, value) {
+            switch (name) {
+              case "label":
+                this.#label.innerText = value ?? "";
+                return;
+              case "hint":
+                this.#hint.innerText = value ?? "";
+                if (value) {
+                  this.#hint.removeAttribute("hidden");
+                  this.#input.setAttribute("aria-describedBy", this.#hint.id);
+                } else {
+                  this.#hint.setAttribute("hidden", "");
+                  this.#input.removeAttribute("aria-describedBy");
+                }
+                return;
+              case "error":
+                this.#error.innerText = value ?? "";
+                this.#input.classList.toggle("usa-input--error", !!value);
+                if (value) {
+                  this.#error.removeAttribute("hidden");
+                } else {
+                  this.#error.setAttribute("hidden", "");
+                }
+                return;
+              default:
+                if (value === null) {
+                  this.#input.removeAttribute(name);
+                } else {
+                  this.#input.setAttribute(name, value);
+                }
+                return;
+            }
+          }
+
+          validationMessages = [
+            ["patternMismatch", "{{label}} does not match the required format"],
+            ["rangeOverflow", "{{label}} cannot be larger than {{max}}"],
+            ["rangeUnderflow", "{{label}} must be at least {{min}}"],
+            ["tooLong", "Enter no more than {{maxlength}} characters"],
+            ["tooShort", "Enter at least {{minlength}} characters"],
+            ["typeMismatch", "{{label}} format is not valid"],
+            ["badInput", "{{label}} has invalid formatting"],
+            ["stepMismatch", "{{label}} must be a multiple of {{step}}"],
+            ["customError", "customError was set"],
+            ["valueMissing", "{{label}} is required"],
+          ];
+          getCustomError(type, elem) {
+            // TODO: Look at type and change strings?
+            const validity = elem.validity;
+            const error = this.validationMessages.find((m) => validity[m[0]]);
+            if (!error) {
+              return validity.valid ? "" : "Unknown error";
+            }
+            const msg = error[1].replace(
+              /{{(\w+)}}/g,
+              (_, attr) => elem.getAttribute(attr) || this.getAttribute(attr)
+            );
+            return msg;
+          }
+
+          connectedCallback() {
+            if (this.#initialized) return;
+            this.#initialized = true;
+
+            // Inject HTML markup and cache references
+            this.innerHTML = this.componentHTML;
+            this.#label = this.querySelector("label");
+            this.#input = this.querySelector("input");
+            this.#hint = this.querySelector(".hint");
+            this.#error = this.querySelector(".usa-error-message");
+
+            // Add proxies for properties/methods sent to <input>
+            for (let name of this.constructor.observedAttributes) {
+              name = this.constructor.mappedProps[name] ?? name;
+              if (this.#input[name] !== undefined) {
+                Object.defineProperty(this, name, {
+                  get: () => this.#input[name],
+                  set: (v) => (this.#input[name] = v),
+                  enumerable: true,
+                });
+              }
+            }
+            for (const name of this.constructor.proxiedMethods) {
+              this[name] = this.#input[name].bind(this.#input);
+            }
+
+            // Process _all_ attrs at init, not just observed ones
+            Array.from(this.attributes).forEach(({ name, value }) =>
+              this.#attrChange(name, null, value)
+            );
+
+            // Customize the error presentation
+            this.#input.addEventListener("invalid", (e) => {
+              e.preventDefault();
+              const msg = this.getCustomError("input", e.target);
+              this.#attrChange("error", "", msg);
+            });
+            this.#input.addEventListener("change", (e) => {
+              if (e.target.reportValidity()) {
+                this.#attrChange("error", "!", "");
+              }
+            });
+          }
+
+          attributeChangedCallback(...args) {
+            if (this.#initialized) {
+              this.#attrChange(...args);
+            }
+          }
+        }
+      );
+    </script>
+  </head>
+  <body>
+    <form id="webc">
+      <usa-radio-group
+        name="isAnonymous"
+        legend="Would you like to provide contact information, or file anonymously?"
+        variant="tile"
+      >
+        <usa-radio
+          value="no"
+          label="I'll provide my contact information"
+          hint="If we have questions about your complaint, we might contact you. Below, you can let us know if you have any concerns about sharing your information with the state where the hospital is located."
+        ></usa-radio>
+        <usa-radio
+          value="yes"
+          label="I'll remain anonymous"
+          hint="Please note that sometimes while gathering information, investigators reach out to patients they find in hospital records. If you're the patient, you might be contacted if your complaint is being investigated and you are identified by investigators."
+        ></usa-radio>
+      </usa-radio-group>
+      <!--  -->
+      <usa-input name="name" id="barf" label="FirstName" hint="You know">
+      </usa-input>
+      <!--  -->
+      <usa-input
+        name="email"
+        label="Email"
+        type="email"
+        hint="Hinty Fresh"
+        value="notme@nowhere.com"
+      >
+      </usa-input>
+      <!--  -->
+      <usa-input
+        name="phone"
+        label="Phone"
+        required
+        format="usphone"
+        pattern="(1?)\D?[2-9]\d\d\D?\d\d\d\D?\d\d\d\d\s?"
+      >
+      </usa-input>
+      <div><button type="submit">Submit</button></div>
+    </form>
+  </body>
+  <script>
+    document.body.addEventListener("submit", (e) => {
+      e.preventDefault();
+      const fields = Object.fromEntries(new FormData(e.target));
+      console.log(fields);
+    });
+  </script>
+</html>

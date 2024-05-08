@@ -16,6 +16,62 @@
     <form class="complaint" action="">
       <!-- ======================= COMPLAINT FORM ============================ -->
 
+      <div id="sorry" hidden>
+        <b>Sorry, we're closed right now.</b>
+      </div>
+      <script>
+        function inMaintenanceWindow(dateInThisTZ) {
+          // Maintenance window start dates (each is 2 days long)
+          // (for 2024)       J  F  M   A   M   J   J   A   S   O   N   D
+          const startDates = [0, 0, 0, 19, 17, 21, 26, 23, 27, 18, 15, 13];
+          const startHour = 21; // 9 p.m. ET Friday (CHECK THIS WITH RICH)
+          const endHour = 22; // 10 p.m. ET Saturday
+          // We know the maintenance window in Eastern Time.
+          // ET in DST is 4 hours off UTC; ET in std time is 5 hours.
+          // We can't find out what timezone ET is currently in, just its offset!
+          // So assume the worst and add an hour before (EST) or after (DST).
+          const offsetHoursET = 4;
+          const hoursOffset =
+            dateInThisTZ.getTimezoneOffset() / 60 - offsetHoursET;
+          // Adjust timezone to ET, to get the right year, month, date
+          const date = new Date(dateInThisTZ);
+          date.setHours(date.getHours() + hoursOffset);
+          const maintStart = new Date(
+            date.getFullYear(),
+            date.getMonth(),
+            startDates[date.getMonth()],
+            startHour - hoursOffset
+          );
+          const maintEnd = new Date(
+            date.getFullYear(),
+            date.getMonth(),
+            startDates[date.getMonth()] + 1,
+            endHour - hoursOffset + 1
+          );
+          //console.log({ dateInThisTZ, date, maintStart, maintEnd });
+          return date >= maintStart && date < maintEnd;
+        }
+
+        // tests
+        function t(date) {
+          console.log(
+            `inMaintenanceWindow("${date.toLocaleString()}") = ${inMaintenanceWindow(
+              date
+            )}`
+          );
+        }
+        t(new Date());
+        t(new Date(2024, 3, 19, 12));
+        t(new Date(2024, 3, 19, 21));
+        t(new Date(2024, 3, 19, 21, 29));
+        t(new Date(2024, 3, 19, 22));
+        t(new Date(2024, 3, 20, 10));
+        t(new Date(2024, 3, 20, 18));
+        t(new Date(2024, 3, 20, 22));
+        t(new Date(2024, 3, 20, 22, 12));
+        t(new Date(2024, 3, 20, 23));
+        t(new Date(2024, 3, 20, 23, 30));
+      </script>
       <div class="data-entry-form">
         <h1 class="ds-h1">File an EMTALA Complaint</h1>
 
@@ -340,15 +396,6 @@
                   </li>
                 </ul>
               </div>
-              <span
-                class="incident-description-error ds-c-inline-error ds-c-field__error-message"
-                aria-live="assertive"
-                aria-atomic="true"
-                hidden
-              >
-                <span aria-hidden="true">🛑</span>
-                Please enter at least 250 characters here.
-              </span>
             </label>
             <textarea
               name="description"
@@ -369,6 +416,15 @@
             <div class="text-counter">(Up to 200 characters)</div>
           </div>
 
+          <div
+            class="form-has-errors ds-c-inline-error ds-c-field__error-message ds-u-margin-top--3"
+            aria-live="assertive"
+            aria-atomic="true"
+            hidden
+          >
+            <span aria-hidden="true">🛑</span>
+            Please fix the errors above before reviewing the complaint.
+          </div>
           <button
             type="button"
             class="go-to-review ds-c-button ds-c-button--solid"
@@ -666,13 +722,14 @@
       let hospitals = [];
 
       const validateDesc = (field, value) => {
-        if (value.length < 10) {
-          field.classList.add("ds-c-field-error");
-          show(".incident-description-error");
-          return false;
-        }
-        field.classList.remove("ds-c-field--error");
-        hide(".incident-description-error");
+        // (No minimum length enforced for now)
+        // if (value.length < 250) {
+        //   field.classList.add("ds-c-field-error");
+        //   show(".incident-description-error");
+        //   return false;
+        // }
+        // field.classList.remove("ds-c-field--error");
+        // hide(".incident-description-error");
         return true;
       };
 
@@ -680,16 +737,19 @@
         validateDesc(e.target, e.target.value)
       );
 
+      Array.from(qs("form.complaint").elements).forEach((el) => {
+        el.addEventListener("focusout", (e) => {
+          hide(".form-has-errors");
+          if (qs(".ds-c-field__error-message:not([hidden])")) {
+            show(".form-has-errors");
+          }
+        });
+      });
+
       qs("button.go-to-review").addEventListener("click", (e) => {
         // TODO: If non-anon, check for name and >0 contact
-        // TODO: check that date is today or earlier
-        // TODO: require at least X chars in description
-        // TODO: Set error classes and show error messags
         if (qs(".ds-c-field__error-message:not([hidden])")) {
-          // ***** this won't work b/c empty field didn't "change"
-          // validate the field on blur
-          // TODO: error message right above button?
-          console.error("fix yo stuff");
+          show(".form-has-errors");
           return;
         }
 

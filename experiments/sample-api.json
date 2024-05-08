@@ -1,0 +1,54 @@
+[
+{
+  "complainant": {
+    "isAnonymous": false,
+    "relationToPatient": "self",
+    "firstname": "Sarah",
+    "lastname": "Greshman",
+    "phone": "410-555-1212",
+    "email": ""
+  },
+  "facilityCCN": "0125189",
+  "dateOfIncident": "2023-11-11",
+  "description": "I went to the emergency room with a broken arm and they refused to treat me! They said I needed to have insurance. It was about 3 in the afternoon. The receptionist at the front desk had a name tag that said Karen, I don't know her last name.",
+  "previouslyReported": "Yes, I called the hospital administrator."
+},
+{
+    "complainant": {
+      "isAnonymous": true,
+      "relationToPatient": "helper",
+      "firstname": "",
+      "lastname": "",
+      "phone": "",
+      "email": ""
+    },
+    "facilityCCN": "0074898",
+    "dateOfIncident": "2024-01-19",
+    "description": "A bad thing happened at the hospital, I went in with my daughter because she had a high fever and we waited 3 hours to be seen. Then they just told me to give her some over-the-counter medicine and sent us home. It was ridiculous, why did we wait so long and why did it cost $1,200?",
+    "previouslyReported": ""
+  },
+  {
+    "complainant": {
+      "isAnonymous": false,
+      "relationToPatient": "worker",
+      "firstname": "Joseph",
+      "lastname": "Jantre",
+      "phone": "",
+      "email": "joecleaner@outloook.com"
+    },
+    "facilityCCN": "2512312",
+    "dateOfIncident": "2023-12-25",
+    "description": "We were very short staffed because it was Christmas Day. A patient came into the ER and needed a psych evaluation. We don't have one working, but the doctor on call (Dr. Reggie Banks) is supposed to come in within 30 minutes. We were having trouble restraining the patient and he was becoming agitated. After about two hours, Dr. Banks finally arrived but was mad that we called him. He asked the patient a few questions, prescribed a sedative, and left.",
+    "previouslyReported": "No"
+  },
+  {
+    "complainant": {
+      "isAnonymous": true,
+      "relationToPatient": "anonymous"
+    },
+    "facilityCCN": "8675309",
+    "dateOfIncident": "2024-02-14",
+    "description": "I saw a patient enter the emergency room with one of those Cupid's arrows stuck in their leg. Since it was Valentines Day, the receptionist thought it was a joke and told the person to leave or they would call the police. But he really seemed to be injured, he was bleeding. They should have examined him and remove the arrow before sending him away!",
+    "previouslyReported": ""
+  }
+]
