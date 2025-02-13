@@ -1,47 +1,47 @@
 {
   "name": "form-demo",
   "description": "Demo of a web form",
-  "longDescription": "",
-  "status": "",
+  "longDescription": "This is a quick demo of form capabilities that uses the CMS Design System. It doesn't send the data anywhere.",
+  "status": "Production",
   "permissions": {
     "license": [
       {
-        "name": "",
-        "URL": ""
+        "name": "CC0 1.0 Universal",
+        "URL": "https://github.com/DSACMS/form-demo/blob/main/LICENSE"
       }
     ],
-    "usageType": "",
+    "usageType": "openSource",
     "exemptionText": ""
   },
-  "organization": "",
+  "organization": "Centers for Medicare & Medicaid Services",
   "repositoryURL": "https://github.com/DSACMS/form-demo",
   "vcs": "git",
   "laborHours": 11466,
-  "platforms": [],
-  "categories": [],
-  "softwareType": "",
+  "platforms": ["web"],
+  "categories": ["design-system"],
+  "softwareType": "standalone/web",
   "languages": [
     "JavaScript",
     "HTML"
   ],
-  "maintenance": "",
+  "maintenance": "internal",
   "date": {
     "created": "2024-02-23T19:59:09Z",
     "lastModified": "2025-02-13T19:14:34Z",
     "metaDataLastUpdated": "2025-02-13T19:15:27.869Z"
   },
-  "tags": [],
+  "tags": ["repository", "form"],
   "contact": {
-    "email": "",
-    "name": ""
+    "email": "opensource@cms.hhs.gov",
+    "name": "CMS/OA/DSAC"
   },
   "localisation": false,
-  "repositoryType": "",
+  "repositoryType": "website",
   "userInput": false,
-  "fismaLevel": "",
-  "group": "",
-  "subsetInHealthcare": [],
-  "userType": [],
-  "repositoryHost": "github",
-  "maturityModelTier": 0
+  "fismaLevel": "low",
+  "group": "CMS/OA/DSAC",
+  "subsetInHealthcare": ["operational"],
+  "userType": ["government"],
+  "repositoryHost": "github.com/DSACMS",
+  "maturityModelTier": 1
 }
