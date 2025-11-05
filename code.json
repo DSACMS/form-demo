@@ -2,16 +2,16 @@
   "name": "form-demo",
   "version": "",
   "description": "Demo of a web form",
-  "longDescription": "This is a quick demo of form capabilities that uses the CMS Design System. It doesn't send the data anywhere.",
+  "longDescription": "This is a quick demo of form capabilities that uses the CMS Design System and the USWDS form.io framework. It doesn't send the data anywhere and is solely for experimental purposes.",
   "status": "Production",
   "permissions": {
-    "license": [
+    "licenses": [
       {
-        "name": "CC0 1.0 Universal",
+        "name": "CC0-1.0",
         "URL": "https://github.com/DSACMS/form-demo/blob/main/LICENSE"
       }
     ],
-    "usageType": "openSource",
+    "usageType": ["openSource"],
     "exemptionText": ""
   },
   "organization": "Centers for Medicare & Medicaid Services",
