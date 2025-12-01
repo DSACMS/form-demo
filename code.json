@@ -11,7 +11,9 @@
         "URL": "https://github.com/DSACMS/form-demo/blob/main/LICENSE"
       }
     ],
-    "usageType": ["openSource"],
+    "usageType": [
+      "openSource"
+    ],
     "exemptionText": ""
   },
   "organization": "Centers for Medicare & Medicaid Services",
@@ -23,7 +25,7 @@
   "disclaimerURL": "",
   "disclaimerText": "",
   "vcs": "git",
-  "laborHours": 11478,
+  "laborHours": 11482,
   "reuseFrequency": {
     "forks": 0,
     "clones": 0
@@ -47,8 +49,8 @@
   "partners": [],
   "date": {
     "created": "2024-02-23T19:59:09Z",
-    "lastModified": "2025-11-04T23:28:44Z",
-    "metadataLastUpdated": "2025-11-05T22:23:23.122Z"
+    "lastModified": "2025-11-05T22:27:25Z",
+    "metadataLastUpdated": "2025-12-01T01:01:24.737Z"
   },
   "tags": [
     "repository",
